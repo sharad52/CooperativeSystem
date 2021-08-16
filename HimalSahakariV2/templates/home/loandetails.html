@@ -1,0 +1,150 @@
+{% extends 'home/base.html'%}
+{% block content %}
+<div class="row">
+	<div class="col-4 col-m-6 col-sm-6">
+		<div class="card">
+            <div class="card-header">
+                <h3>{{ clientinfo.name }}</h3>
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <div class="card-content">
+                <a href="#" class="link-btn outline-edit">बिबरण सच्चाउनुहोस् </a>
+            </div>
+        </div>
+	</div>
+	<div class="col-4 col-m-6 col-sm-6">
+		<div class="card">
+            <div class="card-header">
+                <h3>ऋणिको बिबरण </h3>
+                <i class="fas fa-qrcode"></i>
+            </div>
+            <div class="card-content">
+                <p>ईमेल: {{ clientinfo.email }}</p>
+                <p>फोन: {{ clientinfo.phone }}</p>
+            </div>
+		</div>
+	</div>
+	<div class="col-4 col-m-6 col-sm-6">
+		<div class="card">
+			<div class="card-header">
+                <h3>Transaction Status</h3>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div class="card-content">
+                <h2 style="text-align:center;padding:3px;">{{ status }}</h2>
+            </div>
+		</div>
+	</div>
+	
+</div>
+<div class="row">
+    <div class="col-12 col-m-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>ऋण बिबरण</h3>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div class="card-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>क्र.सं.</th>
+                            <th>ऋण रकम</th>
+                            <th>लगानी मिती</th>
+                            <th>हाल सम्मको ब्याज</th>
+                            <th>ब्याज सहितको रकम</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for loanitem in loanset %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ loanitem.amount }}</td>
+                            <td>{{loanitem.loan_drawn_date|date:"Y/m/d"}}</td>
+                            <td>{{loanitem.interest}}</td>
+                            <td> {{loanitem.total}}</td>
+                            {% if aval != tval %}
+                                <td> <a href="{% url 'homeapp:SchedulePayment' loanitem.id clientinfo.id %}" class="link-btn outline-create">किस्ता रकम राख्नुहोस</a></td>
+                            {% else %}
+                                <td> <a title = "चुक्ता गर्नुहोस्" href="{% url 'homeapp:MarkComplete' loanitem.id  %}"><i style="font-size: 30px; color:green;" class="fas fa-check-square"></i></a></td>
+                            {% endif %}
+                            
+                            {% if loanitem.is_complete %}
+                                <td> <a style= "color: green;" href="#">चुक्ता भईसकेको छ ।</a></td>
+                            {% endif %}
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>जम्मा</td>
+                            <td>रु. {{amountsum.amount__sum}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    {% if messages %}
+        <ul class="messages">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                    {{ message }}
+                </li>
+                {% endfor %}
+        </ul> 
+    {% endif %}
+    <div class="col-12 col-m-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>किस्ता रकम बिबरण</h3>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div class="card-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>क्र.सं.</th>
+                            <th>मिति</th>
+                            <th>किस्ता रकम</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pay in payset %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{ pay.payment_date|date:"Y/m/d"}}</td>
+                            <td>{{ pay.payment_amount }}</td>
+                            <td><a href="#"><i class="fas fa-edit" title="सच्चाउनुहोस"></i></a> &nbsp;<a href="#"><i class="fas fa-trash-alt"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                        <!-- <tr>
+                            <td>1</td>
+                            <td>2078/04/12</td>
+                            <td>2000</td>
+                            <td>29000</td>
+                            <td>27000</td>
+                            <td><a href="#"><i class="fas fa-edit" title="सच्चाउनुहोस"></i></a> &nbsp;<a href="#"><i class="fas fa-trash-alt"></i></a></td>
+                        </tr> -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">जम्मा</td>
+                            <td colspan="4">रु. {{totalpayment.payment_amount__sum}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

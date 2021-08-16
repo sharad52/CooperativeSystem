@@ -1,0 +1,13 @@
+{% extends 'home/base.html'%}
+{% block content %}
+    <h3>ऋणीको बिबरण राख्नुहोस</h3>
+    <form method="POST">{% csrf_token %}
+        {% for field in form %}
+                <div class="fieldWrapper" style="margin: 10px; padding: 10px;">
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }}
+                </div>
+            {% endfor %}
+        <input type="submit" style="border: none;" class="admin-btn" value="सुरक्षित गर्नुहोस्">
+    </form>
+{% endblock %}

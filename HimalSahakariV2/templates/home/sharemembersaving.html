@@ -1,0 +1,129 @@
+{% extends 'home/base.html' %}
+    {% block content %}
+    <div class="row">
+        <div class="col-6 col-m-6 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>{{ member.name }}</h3>
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="card-content">
+                    <a href="{% url 'homeapp:MemberSaving' member.id %}" class="link-btn outline-create">रकम बिबरण राख्नुहोस्</a>
+                    <a href="{% url 'homeapp:DrawSaving' member.id %}" class="link-btn outline-edit">रकम निकाल्नुहोस्</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-m-6 col-sm-12">
+            <div class="card">
+                <div class="card-content">
+                    <p>सदस्यता नं : {{ member.member_id}}</p>
+                    <p>ईमेल : {{ member.email }}</p>
+                    <p>फोन: {{ member.phone }}</p>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+<div class="row">
+    {% if messages %}
+            <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        {{ message }}
+                    </li>
+                    {% endfor %}
+            </ul> 
+        {% endif %}
+    <div class="col-12 col-m-12 col-sm-12">
+    <div class="card">
+        <div class="card-header">
+            <h3>सङ्कलित रकम बिबरण</h3>
+        </div>
+        <input type="submit" class = "admin-btn" style="border: none;" value="Excel मा लैजानुहोस्">&nbsp;&nbsp;
+        <input type="submit" class = "admin-btn" style="border: none;" value="रिपोर्ट प्रिन्ट गर्नुहोस्">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>आर्थिक बर्ष</th>
+                    <th>बैशाख</th>
+                    <th>जेष्ठ</th>
+                    <th>असार</th>
+                    <th>साउन</th>
+                    <th>भाद्र</th>
+                    <th>असोज</th>
+                    <th>कार्तीक</th>
+                    <th>मङ्सिर</th>
+                    <th>पौष</th>
+                    <th>माघ</th>
+                    <th>फाल्गुन</th>
+                    <th>चैत्र</th>
+                    <th>जम्मा</th>
+                    <th>जम्मा ब्याज</th>
+                    <th>चक्रे ब्याज</th>
+                    
+                </tr>
+            </thead>
+            {% regroup saving|dictsort:"year" by year as year_list %}
+            <tbody>
+                {% for year in year_list %}
+                <tr>
+                    <td>{{ year.grouper }}</td>
+                   
+                    {% for item in year.list %}
+                    
+                         <td><a href="{% url 'homeapp:UpdateSaving' member.id item.id %}" title="सच्चयाउनुहोस् ">{{ item.amount }}</a></td>
+                         
+                    {% endfor %}
+                    {% endfor %}
+                </tr>
+                
+            </tbody>
+            <tfoot>
+                
+                <tr>
+                    <td colspan="15">कुल मासिक बचत रकम</td>
+                    <td>{{ total_amount.amount__sum }}</td>
+                </tr>
+                <!-- <tr>
+                    <form method="POST">{% csrf_token %}
+                    <td colspan="15">जम्मा चक्रे ब्याज</td>
+                    <td><input type="number" placeholder="रु" name="cinterest"></td>
+                    <td><input type="submit" value="Save" style="border: none;" class="admin-btn"></td>
+                    </form>
+                </tr>
+                <tr>
+                    <td colspan="15">कुल जम्मा</td>
+                    <td>रु. 250000</td>
+                </tr> -->
+            </tfoot>
+        </table>
+        <!-- test code -->
+        <h3>जम्मा बार्षिक बचत</h3>
+        {% for x in savingPerYear %}
+                    <ul id="totalsaving">
+                        <li>{{ x.c }}</li>
+                    </ul>
+                {% endfor %}
+
+        <h3>जम्मा ब्याज</h3>
+        {% for y in data %}
+                    <ul id="totalsaving">
+                        <li> {{ y.interest_year|floatformat }}</li>
+                    </ul>
+        {% endfor %}
+        <h3>चक्रे ब्याज</h3>
+        {% for p in cinterest %}
+                    <ul id="totalsaving">
+                        <li> {{p.compoundi|floatformat}} </li>
+                    </ul>
+        {% endfor %}
+        <!-- end test -->
+        <div class="table-bottom">
+            
+        </div>  
+    </div>
+    </div>
+</div>
+    {% endblock %}

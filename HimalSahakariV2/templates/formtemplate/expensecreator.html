@@ -1,0 +1,13 @@
+{% extends 'home/base.html' %}
+{% block content %}
+    <h3>खर्च बिबरण</h3>
+    <form method="POST">{% csrf_token %}
+        {% for field in form %}
+        <div class="fieldWrapper" style="padding: 10px; margin:10px;">
+                {{ field.errors }}
+                {{ field.label_tag }} {{ field }}
+        </div>
+        {% endfor %}
+        <input type="submit" class="admin-btn" style="border: none;" value="सुरक्षित गर्नुहोस्">
+    </form>
+{% endblock %}

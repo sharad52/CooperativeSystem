@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>अन्य बचत बिबरण रिपोर्ट</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>क्र.सं.</th>
+                <th>बचत शिर्षक</th>
+                <th>बचत रकम</th>
+                <th>बचत मिती</th>
+                <th>कैफियत</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for saving in savings %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{saving.title}}</td>
+                <td>{{saving.amount}}</td>
+                <td>{{saving.deposit_date|date:"Y/m/d"}}</td>
+                <td>{{ saving.remarks }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">जम्मा</td>
+                <td>रुः {{ totalsaving.amount__sum }}</td>
+            </tr>
+            
+        </tfoot>
+    </table>
+    
+</body>
+</html>

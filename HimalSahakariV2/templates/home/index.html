@@ -1,0 +1,151 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+	<div class="col-3 col-m-6 col-sm-6">
+		<div class="counter bg-primary">
+			<p>
+				<i class="fas fa-tasks"></i>
+			</p>
+			<h3>रु: {{ coop_debit }}</h3>
+			<p>कुल बचत रकम</p>
+		</div>
+	</div>
+	<div class="col-3 col-m-6 col-sm-6">
+		<div class="counter bg-warning">
+			<p>
+				<i class="fas fa-spinner"></i>
+			</p>
+			<h3>रुः {{ total_loan.amount__sum}}</h3>
+			<p>कुल लगानी रकम </p>
+		</div>
+	</div>
+	<div class="col-3 col-m-6 col-sm-6">
+		<div class="counter bg-success">
+			<p>
+				<i class="fas fa-check-circle"></i>
+			</p>
+			<h3>रुः {{ totalexpense.amount__sum }}</h3>
+			<p>सहकारीको  खर्च</p>
+		</div>
+	</div>
+	<div class="col-3 col-m-6 col-sm-6">
+		<div class="counter bg-danger">
+			<p>
+				<i class="fas fa-bug"></i>
+			</p>
+			<h3>{{ net_worth }}</h3>
+			<p> नेट वर्थ </p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12 col-sm-12 col-m-12">
+		<div class="card">
+			<div class="card-header">
+				<h3>
+					हिमाल कृषि सहकारी बिबरण
+				</h3>
+				<i class="fas fa-ellipsis-h"></i>
+			</div>
+			<div class="card-content">
+				<table>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>शिर्षक</th>
+							<th>रकम</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>सेयर सदस्य मासिक बचत</td>
+							<td> रु.  {{ totalmonthlysaving.amount__sum }}</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>सेयर कित्ता खरिद रकम  </td>
+							<td> रु. {{ totalshareprice}}</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>कुल लगानी रकम</td>
+							<td> रु. {{ total_loan.amount__sum }}</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>सहकारी खर्च रकम</td>
+							<td> रु. {{ totalexpense.amount__sum }}</td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>सहकारीको अन्य आम्दानीहरू</td>
+							<td> रु. {{ totalsaving.amount__sum }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<!-- <div class="col-4 col-sm-12 col-m-12">
+		<div class="card">
+			<div class="card-header">
+				<h3>
+					Progress bar
+				</h3>
+				<i class="fas fa-ellipsis-h"></i>
+			</div>
+			<div class="card-content">
+				<div class="progress-wrapper">
+					<p>less than 1 hour
+					<span class="float-right">50%</span>
+					</p>
+					<div class="progress">
+						<div class="bg-success"style="width: 50%"></div>
+					</div>
+				</div>
+				<div class="progress-wrapper">
+					<p> 1-3 hour
+					<span class="float-right">60%</span>
+					</p>
+					<div class="progress">
+						<div class="bg-primary"style="width: 60%"></div>
+					</div>
+				</div>
+				<div class="progress-wrapper">
+					<p> less than 2 hour
+					<span class="float-right">40%</span>
+					</p>
+					<div class="progress">
+						<div class="bg-warning"style="width: 40%"></div>
+					</div>
+				</div>
+				<div class="progress-wrapper">
+					<p>less than 4 hour
+					<span class="float-right">20%</span>
+					</p>
+					<div class="progress">
+						<div class="bg-danger"style="width: 20%"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+</div>
+<div class="row">
+	<div class="col-12 col-sm-12 col-m-12">
+		<div class="card">
+			<div class="card-header">
+				<h3>
+					chartjs
+				</h3>
+			</div>
+			<div class="card-content">
+				<canvas id= "myChart"></canvas>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-12 col-sm-12 col-m-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>अन्य आम्दानी बिबरण</h3>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div class="card-content">
+                <div class="btn-container">
+                    <a href="{% url 'homeapp:CreateOtherSaving'%}" >अन्य आम्दानी बिबरण राख्नुहोस</a>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>क्र.सं.</th>
+                        <th>बचत शिर्षक</th>
+                        <th>बचत रकम</th>
+                        <th>बचत मिती</th>
+                        <th>कैफियत</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for saving in savings %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{saving.title}}</td>
+                        <td>{{saving.amount}}</td>
+                        <td>{{saving.deposit_date|date:"Y/m/d"}}</td>
+                        <td>{{ saving.remarks }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">जम्मा</td>
+                        <td>रुः {{ totalsaving.amount__sum }}</td>
+                    </tr>
+                    
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock%}

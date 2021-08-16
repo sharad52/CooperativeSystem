@@ -1,0 +1,13 @@
+<h1>profile view</h1>
+<h2>{{ user.get_full_name }}</h2>
+<ul>
+    <li>Username: {{ user.username }}</li>
+    <li>Image:
+        {% if profile.image %}
+            <img src ="{{ profile.image.url }}" alt="Profile Image" style="height: 100px; width: 95px; border-radius:50%;">
+        {% else %}
+            <p>User has not uploaded an image</p>
+        {% endif %}    
+    </li>
+    <li>Bio: {{ profile.bio }}</li>
+</ul>

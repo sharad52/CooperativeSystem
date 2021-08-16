@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <title>EMI Calculator</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="card text-center">
+              <div class="card-header">
+                  <h1>EMI CALCULATOR</h1>
+              </div>  
+              <div class="card-body">
+                  <h5 class="card-title">
+                      EMI Calculation Form
+                  </h5>
+                  <form method="POST">{% csrf_token %}
+                      <div class=" form-group row">
+                          <label for="amount" class="col-sm-2 col-form-label">Loan Amount</label>
+                          <div class="col-sm-10">
+                            <input type="text" id="amount" name="amount" class="form-control" placeholder="Enter Loan Amount">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label for="interest_rate" class= "col-sm-2 col-form-label">Interest Rate</label>
+                          <div class="col-sm-10">
+                              <input type="number" name="rate" step="0.01" id="interest_rate" class="form-control" placeholder="12.5%">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label for="tenure" class="col-sm-2 col-form-label">Loan Tenure</label>
+                          <div class="col-sm-10">
+                              <input type="number" name="tenure" id="tenure" class="form-control" placeholder="Place in year">
+                          </div>
+                      </div>
+                      <br>
+                      <div class="form-group">
+                          <input type="submit" class=" btn btn-primary col-sm-4" value="Show EMI">
+                      </div>
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p>the calculate value for emi: {{ emi }}</p>
+
+
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

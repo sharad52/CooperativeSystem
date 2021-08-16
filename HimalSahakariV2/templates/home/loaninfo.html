@@ -1,0 +1,159 @@
+{% extends 'home/base.html'%}
+{% load humanize %}
+{% block content %}
+<div class="row">
+	<div class="col-3 col-m-6 col-sm-6">
+		<div class="counter bg-primary">
+			<p>
+				<i class="fas fa-tasks"></i>
+			</p>
+			<h3>100+</h3>
+			<p>Total Transaction</p>
+		</div>
+	</div>
+	<div class="col-3 col-m-6 col-sm-6">
+		<div class="counter bg-warning">
+			<p>
+				<i class="fas fa-spinner"></i>
+			</p>
+			<h3>100+</h3>
+			<p>In progress</p>
+		</div>
+	</div>
+	<div class="col-3 col-m-6 col-sm-6">
+		<div class="counter bg-success">
+			<p>
+				<i class="fas fa-check-circle"></i>
+			</p>
+			<h3>100+</h3>
+			<p>completed</p>
+		</div>
+	</div>
+	<div class="col-3 col-m-6 col-sm-6">
+		<div class="counter bg-danger">
+			<p>
+				<i class="fas fa-bug"></i>
+			</p>
+			<h3>100+</h3>
+			<p>Incomplete</p>
+		</div>
+	</div>
+</div>
+<div class="row">
+    
+    <div class="col-12 col-sm-12 col-m-12">
+        <div class="card card-content">
+            <form method="GET">
+                {{ myFilter.form }}
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    {% if messages %}
+        <ul class="messages">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                    {{ message }}
+                </li>
+                {% endfor %}
+        </ul> 
+    {% endif %}
+</div>
+<div class="row">
+    <div class="col-4 col-sm-12 col-m-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Clients</h3>
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <div class="card-content">
+                <div class="btn-container">
+                    <a href="{% url 'homeapp:ClientNameHandler' %}">ऋणिको नाम राख्नुहोस</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>नाम</th>
+                            <th>फोन</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in clients %}
+                        <tr>
+                            <td><a href="{% url 'homeapp:IndividualLoan' client.id %}" class="admin-btn">View</a></td>
+                            <td>{{ client.name }}</td>
+                            <td>{{ client.phone }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-8 col-sm-12 col-m-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Recent Transaction</h3>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div class="card-content">
+                <div class="btn-container">
+                    <a href="{% url 'homeapp:ClientLoanCreator' %}" >ऋण बिबरण राख्नुहोस</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>क्र.सं.</th>
+                            <th>ऋणीको नामथर</th>
+                            <th>साँवा</th>
+                            <th>ब्याज</th>
+                            <th>लगानी मिती</th>
+                            <!-- <th>Period(Years)</th> -->
+                            <th>जम्मा</th>
+                            <!-- <th>EMI</th> -->
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for clientdata in clientdataitem %}
+                        <tr>
+                            <td>{{ forloop.counter}}</td>
+                            <td>{{ clientdata.name}}</td>
+                            <td> रु.{{clientdata.amount|intcomma }} </td>
+                            <td>{{clientdata.interest}}</td>
+                            <td>{{clientdata.loan_drawn_date|date:"Y/m/d"}}</td>
+                            <!-- <td>{{ obj.period }} Years </td> -->
+                            <td>रु {{ clientdata.total |intcomma }} </td>
+                            <!-- <td> रु.{{ obj.emi |intcomma }}</td> -->
+                            <td><a href="{% url 'homeapp:UpdateClientLoan' clientdata.id %}" title="सच्याउनुहोस !"><i class="fas fa-edit"></i></a> &nbsp;
+                                <a href="#" title="हेर्नुहोस्"><i class="fas fa-chart-line"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <!-- paginator code here -->
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+                
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+                <!-- paginator code here -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

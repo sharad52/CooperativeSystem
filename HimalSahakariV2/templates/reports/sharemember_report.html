@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सेयर सदस्य रिपोर्ट</title>
+    <style>
+        @page {
+            size: "A4";
+            margin: 2.5cm 1.5cm 3.5cm 1.5cm;
+        }
+        @top-center {
+            content : "Company Name";
+        }
+        
+    </style>
+</head>
+<body>
+<div class="row">
+    <div class="col-12 col-m-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>
+                    सेयर सदस्य बिबरण 
+                </h3>
+            </div>
+            <div class="card-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>सदस्यता नंं.</th>
+                            <th>नाम</th>
+                            <th>सेयर संख्या</th>
+                            <th>सेयर खरिद मिती</th>
+                            <th>सेयर अवधी(महिना)</th>
+                            <th>सेयर मुल्य</th>
+                            <th>मुनाफा</th>
+                            <th>जम्मा</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in sharemember %}
+                        <tr>
+                            <td>{{member.member_id}}</td>
+                            <td>{{member.name}}</td>
+                            <td>{{ member.totalshare}}</td>
+                            <td>{{ member.share_purchase_date|date:"Y/m/d"}}</td>
+                            <td>{{ member.ShareDuration }}</td>
+                            <td>{{ member.ShareAmount}}</td>
+                            <td>{{ member.profit}}</td>
+                            <td>{{member.total}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+					<tfoot>
+						<tr>
+							<td>जम्मा</td>
+                            <td></td>
+                            <td>{{ totalsharevalue.totalshare__sum }}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{ totalshareprice }}</td>
+                            <td></td>
+                            <td></td>
+							
+						</tr>
+					</tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

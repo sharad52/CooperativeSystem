@@ -1,0 +1,74 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<div class="row">
+    {% if messages %}
+        <ul class="messages">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                    {{ message }}
+                </li>
+                {% endfor %}
+        </ul> 
+    {% endif %}
+    <div class="col-12 col-m-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>
+                    सेयर सदस्य बिबरण 
+                </h3>
+                <a  class = "admin-btn" style="border: none;" href="#">Excel मा लैजानुहोस्</a>
+                <a  class = "admin-btn" target="_blank" style="border: none;" href="{% url 'homeapp:ExportPdf' %}">रिपोर्ट प्रिन्ट गर्नुहोस्</a>
+                <i class="fas fa-user-tie">&nbsp;<a href="{% url 'homeapp:ShareMemberCreator' %}" class="admin-btn">सेयर सदस्य थप्नुहोस्</a></i>
+            </div>
+            <div class="card-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>सदस्यता नंं.</th>
+                            <th>नाम</th>
+                            <th>सेयर संख्या</th>
+                            <th>सेयर खरिद मिती</th>
+                            <th>सेयर अवधी(महिना)</th>
+                            <th>सेयर मुल्य</th>
+                            <th>मुनाफा</th>
+                            <th>जम्मा</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in sharemember %}
+                        <tr>
+                            <td><a href="{% url 'homeapp:ShareMemberSaving' member.id %}" class="admin-btn">हेर्नुहोस</a></td>
+                            <td>{{member.member_id}}</td>
+                            <td>{{member.name}}</td>
+                            <td>{{ member.totalshare}}</td>
+                            <td>{{ member.share_purchase_date|date:"Y/m/d"}}</td>
+                            <td>{{ member.ShareDuration }}</td>
+                            <td>{{ member.ShareAmount}}</td>
+                            <td>{{ member.profit}}</td>
+                            <td>{{member.total}}</td>
+                            <td><a href="{% url 'homeapp:ShareAdd' member.id %}" title="सेयर संख्या थप्नुहोस "><i class="fas fa-plus"></i></a> &nbsp; 
+                                <a href="{% url 'homeapp:ShareRemove' member.id %}" title="सेयर संख्या घटाउनुहोस् "><i class="fas fa-minus"></i></a> &nbsp; 
+                                <a href="{% url 'homeapp:UpdateMember' member.id %}" title="सम्पादन गर्नुहोस् "><i class="fas fa-edit"></i></a> &nbsp;
+                                {% if member.profit > 0 %}
+                                    <a href="{% url 'homeapp:ProfitDraw' member.id %}" title="मुनाफा निकाल्नुहोस्"><i class="fab fa-bitcoin "></i></a></td>
+                                {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td>जम्मा</td>
+                            <td>{{totalsharevalue.totalshare__sum }}</td>
+                            <td colspan="2"></td>
+                            <td>{{ totalshareprice }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
